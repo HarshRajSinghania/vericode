@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-label="VeriCode social preview">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1020"/>
+      <stop offset="1" stop-color="#111a33"/>
+    </linearGradient>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <path d="M120 150 L210 178 V250 C210 305 175 336 120 354 C65 336 30 305 30 250 V178 Z" fill="url(#g)"/>
+  <path d="M82 262 L108 288 L162 226" fill="none" stroke="#0b1020" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="250" y="280" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="92" font-weight="700" fill="#f8fafc">VeriCode</text>
+  <text x="252" y="350" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="34" fill="#94a3b8">Verify AI-generated code actually works</text>
+  <text x="252" y="410" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="26" fill="#64748b">type-check · test · secret-scan · CVE-check — locally, no config</text>
+</svg>

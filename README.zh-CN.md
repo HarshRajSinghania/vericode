@@ -1,0 +1,103 @@
+<div align="center">
+
+![VeriCode](assets/logo.svg)
+
+# VeriCode
+
+**验证 AI 生成的代码真的能用 —— 本地运行，零配置。**
+
+类型检查 · 跑测试 · 扫描硬编码密钥 · 检查依赖已知漏洞。
+一条命令，无需配置，代码不出本机（CVE 查询免密钥、匿名）。
+
+[![CI](https://github.com/LucasXlab/vericode/actions/workflows/ci.yml/badge.svg)](https://github.com/LucasXlab/vericode/actions)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/pypi/pyversions/vericode)](https://pypi.org/project/vericode/)
+[![PyPI](https://img.shields.io/pypi/v/vericode)](https://pypi.org/project/vericode/)
+
+</div>
+
+---
+
+## 演示
+
+```bash
+$ pip install vericode
+$ cd my-ai-project
+$ vericode .
+
+  VeriCode · /home/you/my-ai-project
+┏━━━━━━━━━━━┳━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Check     ┃ Status ┃ Detail                               ┃
+┡━━━━━━━━━━━╇━━━━━━┇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ typecheck │ –      │ mypy/pyright not installed          │
+│ tests     │ ✓      │ pytest: passed                      │
+└───────────┴────────┴────────────────────────────────────┘
+✓ No hardcoded secrets detected
+✓ No known vulnerabilities in dependencies
+
+Result: All checks passed (1 skipped)
+```
+
+> 演示 GIF 由 [`demo.tape`](demo.tape) 经 [`vhs`](https://github.com/charmbracelet/vhs) 生成：
+> `vhs demo.tape` → `assets/demo.gif`。
+
+## 为什么需要它
+
+AI 编码 Agent 写出来的代码「看起来对」但常常不对。VeriCode 是你在提交、开 PR
+或上线之前的那道「先验证再信任」关卡。
+
+| | VeriCode | gitleaks | Snyk | Dependabot | `grep` |
+|---|---|---|---|---|---|
+| 密钥扫描 | ✅ 内置 | ✅ | ✅ | ❌ | ⚠️ |
+| 类型检查 / 跑测试 | ✅ | ❌ | ❌ | ❌ | ❌ |
+| 依赖 CVE（免密钥） | ✅ | ❌ | ✅（需账号） | ✅（仅 PR） | ❌ |
+| 本地优先 / 免账号 | ✅ | ✅ | ❌ | ❌ | ✅ |
+| 一条命令全包 | ✅ | ❌ | ❌ | ❌ | ❌ |
+
+## 快速开始
+
+```bash
+pip install vericode
+vericode .                 # 扫描当前项目
+vericode . --strict       # CI 门禁：有任何问题即非零退出
+```
+
+## 功能
+
+- **项目探测**：自动识别 Python / Node / Go / Rust（可扩展）。
+- **类型检查**：`mypy`/`pyright`、`tsc --noEmit`、`go vet`、`cargo check`
+  （工具未安装时诚实跳过）。
+- **测试**：`pytest`、`npm test`、`go test`、`cargo test`。
+- **密钥扫描**：零依赖的正则 + 香农熵启发式，覆盖 AWS / 私钥 / Slack /
+  Stripe / GitHub / GitLab Token、JWT 以及通用的 `api_key = "..."` 赋值。
+- **CVE 检查**：解析 `requirements.txt`、`Pipfile.lock`、`package-lock.json`、
+  `go.mod`、`Cargo.lock`，并查询免费、免密钥的 [OSV API](https://osv.dev)。
+- **`--json`** 供程序消费，**`--strict`** 用于 CI，**`--no-cve`** 跳过联网，
+  **`--exclude`** 忽略指定路径。
+
+## 架构
+
+```mermaid
+flowchart TD
+    CLI[vericode CLI / --json / --strict] --> Core[core.run]
+    Core --> Proj[projects: 探测 + 类型检查 + 测试]
+    Core --> Scan[scanner: 密钥扫描]
+    Core --> Deps[deps: 解析 lockfile]
+    Deps --> OSV[(OSV API 免密钥)]
+    Core --> Report[report: rich / JSON]
+```
+
+## 路线图
+
+- [ ] SARIF 输出，接入 GitHub code scanning
+- [ ] HTML 报告
+- [ ] 历史趋势对比
+- [ ] 可配置的规则白/黑名单
+
+## 贡献
+
+见 [CONTRIBUTING.md](CONTRIBUTING.md)。欢迎小而原子的 PR。
+
+## 许可证
+
+[MIT](LICENSE) © 2026 Noah Forge
