@@ -1,4 +1,5 @@
 """Orchestration: run all checks on a target path."""
+
 from __future__ import annotations
 
 from pathlib import Path

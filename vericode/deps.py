@@ -1,4 +1,5 @@
 """Dependency parsing (lockfiles) and CVE lookup via the keyless OSV API."""
+
 from __future__ import annotations
 
 import json

@@ -81,6 +81,7 @@ def test_go_typecheck_pass(monkeypatch, tmp_path):
     assert projects.run_typecheck(tmp_path).status == "pass"
 
 
-def test_rust_test_skip_no_cargo(tmp_path):
+def test_rust_test_skip_no_cargo(monkeypatch, tmp_path):
     (tmp_path / "Cargo.toml").write_text("[package]\n")
+    monkeypatch.setattr(shutil, "which", lambda x: None)
     assert projects.run_tests(tmp_path).status == "skip"

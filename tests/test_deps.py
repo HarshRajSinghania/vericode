@@ -16,13 +16,17 @@ def test_parse_requirements(tmp_path):
 
 def test_parse_package_lock(tmp_path):
     p = tmp_path / "package-lock.json"
-    p.write_text(json.dumps({
-        "packages": {
-            "": {},
-            "node_modules/left-pad": {"version": "1.3.0"},
-            "node_modules/ms": {"version": "2.1.3"},
-        }
-    }))
+    p.write_text(
+        json.dumps(
+            {
+                "packages": {
+                    "": {},
+                    "node_modules/left-pad": {"version": "1.3.0"},
+                    "node_modules/ms": {"version": "2.1.3"},
+                }
+            }
+        )
+    )
     d = deps._parse_package_lock(p)
     assert {x.name for x in d} == {"left-pad", "ms"}
 
@@ -30,8 +34,8 @@ def test_parse_package_lock(tmp_path):
 def test_parse_gomod(tmp_path):
     p = tmp_path / "go.mod"
     p.write_text(
-        'module example.com/x\n\ngo 1.21\n\nrequire (\n'
-        '\tgithub.com/foo/bar v1.2.3\n\tgithub.com/baz/qux v0.1.0 // comment\n)\n'
+        "module example.com/x\n\ngo 1.21\n\nrequire (\n"
+        "\tgithub.com/foo/bar v1.2.3\n\tgithub.com/baz/qux v0.1.0 // comment\n)\n"
     )
     d = deps._parse_gomod(p)
     assert {"github.com/foo/bar", "github.com/baz/qux"} <= {x.name for x in d}

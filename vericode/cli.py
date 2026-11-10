@@ -1,4 +1,5 @@
 """VeriCode command-line entry point."""
+
 from __future__ import annotations
 
 import json as jsonlib
@@ -14,10 +15,14 @@ from .core import run
 @click.command()
 @click.argument("target", default=".", type=click.Path(exists=True, path_type=Path))
 @click.option("--json", "json_output", is_flag=True, help="Output JSON instead of a pretty report.")
-@click.option("--strict", is_flag=True, help="Exit non-zero if any check fails or a secret/CVE is found.")
+@click.option(
+    "--strict", is_flag=True, help="Exit non-zero if any check fails or a secret/CVE is found."
+)
 @click.option("--no-cve", is_flag=True, help="Skip dependency CVE lookup (no network).")
 @click.option("--exclude", "exclude", multiple=True, help="Relative path to exclude (repeatable).")
-def main(target: Path, json_output: bool, strict: bool, no_cve: bool, exclude: tuple[str, ...]) -> None:
+def main(
+    target: Path, json_output: bool, strict: bool, no_cve: bool, exclude: tuple[str, ...]
+) -> None:
     """VeriCode — verify AI-generated code actually works.
 
     Runs type-check, tests, secret-scan and (optional) CVE lookup on TARGET.

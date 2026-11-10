@@ -9,10 +9,7 @@ def test_aws_access_key():
 
 
 def test_private_key():
-    pem = (
-        "-----BEGIN " + "RSA PRIVATE KEY-----\nMIIE...\n-----END "
-        + "RSA PRIVATE KEY-----"
-    )
+    pem = "-----BEGIN " + "RSA PRIVATE KEY-----\nMIIE...\n-----END " + "RSA PRIVATE KEY-----"
     assert any("Private Key" in x.rule for x in scanner.scan_text(pem))
 
 
